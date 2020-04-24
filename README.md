@@ -1,9 +1,9 @@
-## OVERVIEW
+## Introduction
 
 This is an Angular 9 application with Reactive Forms based on the ["Angular: Getting Started"](http://bit.ly/Angular-GettingStarted) and ["Angular Reactive Forms"](https://app.pluralsight.com/library/courses/angular-2-reactive-forms) Deborah Kurata's courses on Pluralsight.
-I've added a few improvements and refactorings to this app.
+I've added a few improvements and refactorings to this app. Also implemented PathResolver with LevenshteinDistance algorithm for correct  path suggestion.
 
-## INSTALLING THE CODE
+## Installing the code
 
 See the `README.md` file under APM folder for details on installing and running the application.
 
