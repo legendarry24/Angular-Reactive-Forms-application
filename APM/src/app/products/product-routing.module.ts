@@ -6,16 +6,17 @@ import { ProductDetailsGuard } from './product-details/product-details.guard';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductEditGuard } from './product-edit/product-edit.guard';
 import { ProductEditComponent } from './product-edit/product-edit.component';
+import { paths } from '../app-paths';
 
 const routes: Routes = [
-	{ path: 'products', component: ProductListComponent },
+	{ path: paths.products, component: ProductListComponent },
 	{
-		path: 'products/:id',
+		path: `${paths.products}/:id`,
 		canActivate: [ ProductDetailsGuard ],
 		component: ProductDetailsComponent
 	},
 	{
-		path: 'products/:id/edit',
+		path: `${paths.products}/:id/edit`,
 		canDeactivate: [ ProductEditGuard ],
 		component: ProductEditComponent
 	}
