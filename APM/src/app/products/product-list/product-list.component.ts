@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../product';
 
 import { NotificationService } from '../../notification.service';
-import { ProductService } from '../product.service';
+import { ProductDataService } from '../product-data.service';
 
 @Component({
 	templateUrl: './product-list.component.html',
@@ -20,7 +20,7 @@ export class ProductListComponent implements OnInit {
 	private _listFilter: string;
 
 	constructor(private _notification: NotificationService,
-				private _productService: ProductService) {
+				private _productDataService: ProductDataService) {
 	}
 
 	// when a data binding needs a value it will call the getter and get the value
@@ -36,7 +36,7 @@ export class ProductListComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this._productService.getProducts()
+		this._productDataService.getProducts()
 			.subscribe({
 				next: (products: IProduct[]) => {
 					this.products = products;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../product';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductService } from '../product.service';
+import { ProductDataService } from '../product-data.service';
 import { NotificationService } from '../../notification.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class ProductDetailsComponent implements OnInit {
 
 	constructor(private _route: ActivatedRoute,
 				private _router: Router,
-				private _productService: ProductService,
+				private _productDataService: ProductDataService,
 				private _notification: NotificationService) { }
 
 	ngOnInit() {
@@ -36,7 +36,7 @@ export class ProductDetailsComponent implements OnInit {
 	}
 
 	private setProduct(id: number) {
-		this._productService.getProduct(id)
+		this._productDataService.getProduct(id)
 			.subscribe({
 				next: product => this.product = product,
 				error: err => this.errorMessage = err

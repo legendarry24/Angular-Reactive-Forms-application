@@ -6,7 +6,7 @@ import { Observable, Subscription, fromEvent, merge, concat } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { IProduct } from '../product';
-import { ProductService } from '../product.service';
+import { ProductDataService } from '../product-data.service';
 import { NotificationService } from 'src/app/notification.service';
 
 import { NumberValidators } from '../../shared/number.validator';
@@ -36,7 +36,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(private fb: FormBuilder,
 				private route: ActivatedRoute,
 				private router: Router,
-				private productService: ProductService,
+				private productDataService: ProductDataService,
 				private notification: NotificationService) {
 
 		// Define an instance of the validator for use with this form,
@@ -84,7 +84,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 			.pipe(
 				debounceTime(400)
 			)
-			.subscribe(value => {
+			.subscribe(() => {
 				this.displayMessage = this.genericValidator.processMessages(this.productForm);
 			});
 	}
@@ -99,7 +99,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	getProduct(id: number): void {
-		this.productService.getProduct(id)
+		this.productDataService.getProduct(id)
 			.subscribe({
 				next: (product: IProduct) => this.displayProduct(product),
 				error: err => this.errorMessage = err
@@ -124,14 +124,14 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 		const p = { ...this.product, ...this.productForm.value };
 
 		if (p.id === 0) {
-			this.productService.createProduct(p)
+			this.productDataService.createProduct(p)
 				.subscribe({
 					next: (createdProduct: IProduct) => this.onSaveComplete(
 						`New product ${createdProduct.productName} has beed created`),
 					error: err => this.errorMessage = err
 				});
 		} else {
-			this.productService.updateProduct(p)
+			this.productDataService.updateProduct(p)
 				.subscribe({
 					next: (updatedProduct: IProduct) => this.onSaveComplete(
 						`${updatedProduct.productName} has been updated`),
@@ -146,7 +146,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.onSaveComplete();
 		} else {
 			if (confirm(`Really delete the product: ${this.product.productName}?`)) {
-				this.productService.deleteProduct(this.product.id)
+				this.productDataService.deleteProduct(this.product.id)
 					.subscribe({
 						next: () => this.onSaveComplete(
 							`Product with ID: ${this.product.id} has been deleted`),

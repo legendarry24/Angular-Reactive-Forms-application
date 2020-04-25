@@ -9,7 +9,7 @@ import { IProduct } from './product';
 @Injectable({
 	providedIn: 'root'
 })
-export class ProductService {
+export class ProductDataService {
 	private readonly _productsFromJsonUrl = 'api/products/products.json';
 	private readonly _productsUrl = 'api/products';
 
