@@ -5,6 +5,10 @@
     "ng": "ng",
     "start": "ng serve --open",
     "build": "ng build",
+    "build:prod": "ng build --prod",
+    "build:stats": "ng build --stats-json",
+    "analyze": "npx webpack-bundle-analyzer dist/APM/stats-es2015.json",
+    "explore": "npx source-map-explorer dist/APM/main-es5.js",
     "debug": "ng build --watch",
     "test": "ng test",
     "lint": "ng lint",
@@ -46,8 +50,10 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.5.3",
     "protractor": "^5.4.4",
+    "source-map-explorer": "^2.4.2",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "webpack-bundle-analyser": "^1.4.0"
   }
 }
