@@ -18,7 +18,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "my-logger": [
+        "dist/my-logger/my-logger",
+        "dist/my-logger"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

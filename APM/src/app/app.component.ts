@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MyLoggerService } from 'my-logger';
 
 @Component({
 	selector: 'pm-root',
@@ -37,6 +38,12 @@ import { Component } from '@angular/core';
 	`,
 	styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	pageTitle: string = 'Acme Product Management';
+
+	constructor(private logger: MyLoggerService) {}
+
+	ngOnInit(): void {
+		this.logger.log(`Application started at ${new Date().toLocaleString()}`);
+	}
 }

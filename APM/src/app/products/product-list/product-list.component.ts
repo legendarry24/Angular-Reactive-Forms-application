@@ -3,6 +3,7 @@ import { IProduct } from '../product';
 
 import { NotificationService } from '../../notification.service';
 import { ProductDataService } from '../product-data.service';
+import { MyLoggerService } from 'my-logger';
 
 @Component({
 	templateUrl: './product-list.component.html',
@@ -19,9 +20,11 @@ export class ProductListComponent implements OnInit {
 	filteredProducts: IProduct[];
 	private _listFilter: string;
 
-	constructor(private _notification: NotificationService,
-				private _productDataService: ProductDataService) {
-	}
+	constructor(
+		private _notification: NotificationService,
+		private _productDataService: ProductDataService,
+		private _logger: MyLoggerService
+	) {}
 
 	// when a data binding needs a value it will call the getter and get the value
 	get listFilter(): string {
@@ -32,7 +35,9 @@ export class ProductListComponent implements OnInit {
 	// We can add some logic to the setter that will be performed everytime the value is changed.
 	set listFilter(value: string) {
 		this._listFilter = value;
-		this.filteredProducts = this._listFilter ? this.performFilter() : this.products;
+		this.filteredProducts = this._listFilter
+			? this.performFilter()
+			: this.products;
 	}
 
 	ngOnInit(): void {
@@ -41,6 +46,8 @@ export class ProductListComponent implements OnInit {
 				next: (products: IProduct[]) => {
 					this.products = products;
 					this.filteredProducts = this.products;
+
+					this._logger.log(`List of products retrieved, count: ${products.length}`);
 				},
 				error: err => this.errorMessage = err
 			});

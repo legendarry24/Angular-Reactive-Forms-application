@@ -5,6 +5,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 
 import { IProduct } from './product';
+import { MyLoggerService } from 'my-logger';
 
 @Injectable({
 	providedIn: 'root'
@@ -13,12 +14,16 @@ export class ProductDataService {
 	private readonly _productsFromJsonUrl = 'api/products/products.json';
 	private readonly _productsUrl = 'api/products';
 
-	constructor(private _httpClient: HttpClient) { }
+	constructor(
+		private _httpClient: HttpClient,
+		private _logger: MyLoggerService
+	) {}
 
 	getProducts(): Observable<IProduct[]> {
-		return this._httpClient.get<IProduct[]>(this._productsUrl)
+		return this._httpClient
+			.get<IProduct[]>(this._productsUrl)
 			.pipe(
-				tap(data => console.log(JSON.stringify(data))),
+				tap(data => this._logger.log(JSON.stringify(data))),
 				catchError(this.handleError)
 			);
 	}
@@ -29,17 +34,19 @@ export class ProductDataService {
 		}
 
 		const url: string = `${this._productsUrl}/${id}`;
-		return this._httpClient.get<IProduct>(url)
+		return this._httpClient
+			.get<IProduct>(url)
 			.pipe(
-				tap(data => console.log('getProduct: ' + JSON.stringify(data))),
+				tap(data => this._logger.log('getProduct: ' + JSON.stringify(data))),
 				catchError(this.handleError)
 			);
 	}
 
 	getProductsFromJsonFile(): Observable<IProduct[]> {
-		return this._httpClient.get<IProduct[]>(this._productsFromJsonUrl)
+		return this._httpClient
+			.get<IProduct[]>(this._productsFromJsonUrl)
 			.pipe(
-				tap(data => console.log('All: ' + JSON.stringify(data))),
+				tap(data => this._logger.log('All: ' + JSON.stringify(data))),
 				catchError(this.handleError)
 			);
 	}
@@ -56,9 +63,10 @@ export class ProductDataService {
 		// It is needed for InMemoryWebApi POST method to generate ID on the server side
 		product.id = null;
 
-		return this._httpClient.post<IProduct>(this._productsUrl, product, { headers })
+		return this._httpClient
+			.post<IProduct>(this._productsUrl, product, { headers })
 			.pipe(
-				tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+				tap(data => this._logger.log('createProduct: ' + JSON.stringify(data))),
 				catchError(this.handleError)
 			);
 	}
@@ -67,9 +75,10 @@ export class ProductDataService {
 		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 		const url: string = `${this._productsUrl}/${product.id}`;
 
-		return this._httpClient.put<IProduct>(url, product, { headers })
+		return this._httpClient
+			.put<IProduct>(url, product, { headers })
 			.pipe(
-				tap(() => console.log('updateProduct: ' + product.id)),
+				tap(() => this._logger.log('updateProduct: ' + product.id)),
 				// Return the product on an update. It is needed because
 				// PUT method of InMemoryWebApi doesn't return updated object in the response
 				map(() => product),
@@ -81,9 +90,10 @@ export class ProductDataService {
 		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 		const url = `${this._productsUrl}/${id}`;
 
-		return this._httpClient.delete<IProduct>(url, { headers })
+		return this._httpClient
+			.delete<IProduct>(url, { headers })
 			.pipe(
-				tap(() => console.log('deleteProduct: ' + id)),
+				tap(() => this._logger.log('deleteProduct: ' + id)),
 				catchError(this.handleError)
 			);
 	}
